@@ -8,7 +8,7 @@ def on_message(client, userdata, msg):
     if payload == "ON":
         print("💡 Light is TURNED ON")
     elif payload == "OFF":
-        print("💡 Light is TURNED OFF")
+        print("⚫ Light is TURNED OFF")
 
 client = mqtt.Client()
 client.on_message = on_message
