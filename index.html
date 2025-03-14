@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Light Control</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; 
+            text-align: center; 
+            margin-top: 50px; 
+        }
+        button { 
+            padding: 10px 20px; 
+            margin: 10px; 
+            font-size: 16px; 
+        }
+        #status { 
+            margin-top: 20px; 
+            font-weight: bold; 
+        }
+        #onBtn { 
+            background-color: #4CAF50;
+            color: white; 
+            }
+        #offBtn { 
+            background-color: #f44336; 
+            color: white; 
+        }
+    </style>
+</head>
+<body>
+
+    <h2>IoT Light Control</h2>
+    <button id="onBtn">Turn ON</button>
+    <button id="offBtn">Turn OFF</button>
+    <p id="status">Status: Waiting for command...</p>
+
+    <script>
+        const broker = "wss://test.mosquitto.org:8081";  // Public MQTT broker over WebSocket
+        const topic = "/student_group/light_control";
+        const client = mqtt.connect(broker);
+
+        client.on("connect", function () {
+            console.log("Connected to MQTT broker");
+        });
+
+        function sendMessage(message) {
+            client.publish(topic, message);
+            document.getElementById("status").innerText = "Status: Light " + message;
+        }
+
+        document.getElementById("onBtn").addEventListener("click", () => sendMessage("ON"));
+        document.getElementById("offBtn").addEventListener("click", () => sendMessage("OFF"));
+    </script>
+
+</body>
+</html>
